@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="signup.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="signup.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+      integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+      crossorigin="anonymous"
+    ></script>
     <title>Welcome Page</title>
-</head>
-<body>
+  </head>
+  <body>
     <center><p id="message"></p></center>
-    <h1 style="text-align:center;margin-top:50px;" id="heading">Welcome User!</h1>
+    <h1 style="text-align:center;margin-top:50px;" id="heading">
+      Welcome User!
+    </h1>
     <div class="user-info">
-        <br>Name : <br> <input type="text" name="name" required>
-        <br>Email : <br> <input type="email" name="email" required>
-        <br>Phone No. : <br> <input type="text" name="phone">
-        <br>Age : <br> <input type="text" name="age">
-        <br>City : <br> <input type="text" name="city">
-        <br>Country : <br> <input type="text" name="country">
+      <br />Name : <br />
+      <input type="text" name="name" required /> <br />Email : <br />
+      <input type="email" name="email" required /> <br />Phone No. : <br />
+      <input type="text" name="phone" /> <br />Age : <br />
+      <input type="text" name="age" /> <br />City : <br />
+      <input type="text" name="city" /> <br />Country : <br />
+      <input type="text" name="country" />
     </div>
-    <a style="margin-left:25vw;margin-bottom:30px;" id="button" href="Logout">LogOut</a>
+    <br />
+    <span>
+      <a
+        style="margin-left:25vw;margin-bottom:30px;width:22vw;"
+        id="button"
+        href="Logout"
+        >LogOut</a
+      ></span
+    >
+    <button
+      style="margin-left:2vw;margin-bottom:30px;width:22vw;"
+      id="button"
+      onclick="expdf()"
+    >
+      Download as PDF
+    </button>
     <script>
-        var inputs = document.querySelectorAll("input");
-        var ids = ["name", "email", "phone", "age", "city", "country"];
-            window.onload = function () {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var details = this.responseText.split('~');
-                        for (let i = 0; i < 6; i++) {
-                            if (details[i].toString() != "null") {
-                                console.log(typeof(details[i])+ " " + details[i]);
-                                inputs[i].value = details[i];
-                            }
-                        }
-                        document.getElementById('heading').innerHTML = "Welcome " + details[0] + "!!!!";
-                    }
-                };
-                xmlhttp.open("GET", "register?q=" + "getdata", true);
-                xmlhttp.send();
-            };
-            
-        inputs.forEach(function (e) {
-            e.addEventListener("focusout", (event) => {
-                ajaxReq();
-            });
-        });
-
-        function ajaxReq() {
-            // var xhttp = new XMLHttpRequest();
-            // data += "q=getdata";
-            // xhttp.onreadystatechange = function () {
-            //     if (this.readyState == 4 && this.status == 200) {
-            //         document.getElementById("message").innerHTML =
-            //             this.responseText;
-            //     }
-            var data = {
-                name: inputs[0].value,
-                email: inputs[1].value,
-                phone: inputs[2].value,
-                age: inputs[3].value,
-                city: inputs[4].value,
-                country: inputs[5].value,
+      var inputs = document.querySelectorAll("input");
+      var ids = ["name", "email", "phone", "age", "city", "country"];
+      window.onload = function() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var details = this.responseText.split("~");
+            for (let i = 0; i < 6; i++) {
+              if (details[i].toString() != "null") {
+                console.log(typeof details[i] + " " + details[i]);
+                inputs[i].value = details[i];
+              }
             }
-            console.log(data);
-            
-            $.post("register?q=" + "setdata",
-                data,
-                function (res, status) {
-                    document.getElementById("message").innerHTML =
-                        res;
-                    setTimeout(() => {
-                      document.getElementById("message").innerHTML =
-                            " ";  
-                    }, 2000);
-                });
-            // };
-            // console.log(data);
-            // xhttp.open("POST", "register", true);
-            // xhttp.send(data);
-        }
+            document.getElementById("heading").innerHTML =
+              "Welcome " + details[0] + "!!!!";
+          }
+        };
+        xmlhttp.open("GET", "register?q=" + "getdata", true);
+        xmlhttp.send();
+      };
+
+      inputs.forEach(function(e) {
+        e.addEventListener("focusout", event => {
+          ajaxReq();
+        });
+      });
+
+      function ajaxReq() {
+        var data = {
+          name: inputs[0].value,
+          email: inputs[1].value,
+          phone: inputs[2].value,
+          age: inputs[3].value,
+          city: inputs[4].value,
+          country: inputs[5].value
+        };
+        console.log(data);
+
+        $.post("register?q=" + "setdata", data, function(res, status) {
+          document.getElementById("message").innerHTML = res;
+          setTimeout(() => {
+            document.getElementById("message").innerHTML = " ";
+          }, 2000);
+        });
+      }
     </script>
-</body>
+    <script src="welcome.js"></script>
+  </body>
 </html>
