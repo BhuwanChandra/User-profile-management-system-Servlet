@@ -3,7 +3,7 @@ body {
   background-color: #f4f4f4;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  /* overflow: hidden; */
   margin: 0;
   background: linear-gradient(250deg, #55f4ff, #eb53ff);
 }
@@ -51,7 +51,7 @@ body {
   outline: none;
 }
 
-button,a {
+button,#button {
   padding: 8px;
   text-decoration: none;
   font-size: 22px;
@@ -64,10 +64,9 @@ button,a {
   border: 1px solid #cd03ff;
   background: #f8f8f8;
   box-shadow: 0.5px 0.5px 0.5px #f2f2f289;
-  outline: none;
 }
 
-button:hover,a:hover {
+button:hover,#buttton:hover {
   cursor: pointer;
   border: 1px solid white;
   color: #f8f8f8;
