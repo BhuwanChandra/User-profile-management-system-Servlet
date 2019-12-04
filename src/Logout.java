@@ -9,10 +9,12 @@ public class Logout extends HttpServlet {
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
         HttpSession ses =  req.getSession();
+        ses.setAttribute("username", null);
+        ses.setAttribute("useremail", null);
         ses.invalidate();
         RequestDispatcher rs = req.getRequestDispatcher("signup.html");
-        out.println("<h1>Successfully logged out!</h1>");
-        rs.include( req, res);
+        rs.forward( req, res);
+        out.println("<center><h3>Successfully logged out!<h3></center>");
     }
 
 }

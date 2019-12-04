@@ -9,17 +9,19 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         res.setContentType("text/html");
+        try{
         PrintWriter out = res.getWriter();
         String email = req.getParameter("email");
         String pass = req.getParameter("pass");
         
-        try{
+        
             Connection con = connection.initializeDatabase();
              PreparedStatement st = con 
                    .prepareStatement("select * from login where email=? and pass=?"); 
              st.setString(1, email);
              st.setString(2, pass);
              ResultSet k = st.executeQuery();
+             HttpSession ses = req.getSession();
              
              if(k.next()){
 	             String username = k.getString("name");
@@ -27,15 +29,13 @@ public class Login extends HttpServlet {
 //	             out.println(username);
 //	             out.println(useremail);
 //	             
-	             HttpSession ses = req.getSession();
-	             
 	             ses.setAttribute("username", username);
 	             ses.setAttribute("useremail", useremail);
 
 	             con.close();
 	             
 	             RequestDispatcher rs = req.getRequestDispatcher("welcome.html");
-	                rs.include(req, res);
+	                rs.forward(req, res);
              } else
              {
                
@@ -46,7 +46,8 @@ public class Login extends HttpServlet {
              
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+        	RequestDispatcher rs = req.getRequestDispatcher("index.html");
+           rs.include( req, res);
         }        
     }
    
